@@ -1,6 +1,5 @@
 # RGettingandCleaningData
-Instructions
-
+h1. Instructions
 The purpose of this project is to demonstrate your ability to collect, work with, and clean a data set.
 Review criterialess 
 The submitted data set is tidy.
