@@ -8,7 +8,8 @@
 3. Run script run_analysis.R
 
 This will produce a tidy data named tidyData set with the average of each variable for each activity and each subject
----------------------------------
+
+
 ## Original Instructions
 The purpose of this project is to demonstrate your ability to collect, work with, and clean a data set.
 ### Review criteria
