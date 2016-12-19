@@ -5,23 +5,23 @@ This cookbook describes the code in the script run_analysis as well as details r
 
 Main steps in the script delinated by comments:
 
-1. Create data dir
-2. Dowload Files
-3. Unzip data files
-4. Read in data files
-5. Merge data
-6. Read in feature lists
-7. Subset Mean and Standard Deviation
-8. Match column names to masterTable
-9. Var Names Subset
-10. Read in descriptive names for activities
-11. Merge activity descriptions into masterTable
-12. Add activity name as a key
-13. Melt masterTable to make more readable
-14. Merge activity one more time
-15. Create 2 factors with activity and feature information
-16. Handle observations with more than one feature
-17. Return tidyData
+ 1. Create data dir
+ 2. Dowload Files
+ 3. Unzip data files
+ 4. Read in data files
+ 5. Merge data
+ 6. Read in feature lists
+ 7. Subset Mean and Standard Deviation
+ 8. Match column names to masterTable
+ 9. Var Names Subset
+ 10. Read in descriptive names for activities
+ 11. Merge activity descriptions into masterTable
+ 12. Add activity name as a key
+ 13. Melt masterTable to make more readable
+ 14. Merge activity one more time
+ 15. Create 2 factors with activity and feature information
+ 16. Handle observations with more than one feature
+ 17. Return tidyData
 
 ## Tidy Data Variables values and descriptions
 
