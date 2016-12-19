@@ -2,14 +2,17 @@
 
 ## Prep envirnoment and run analysis
 1.  Set Working directory (setwd) to directory the run_analysis script was dowloaded to
-2.  Import data.table package if nessessary and load the library
+2.  Import data.table package if necessary and load the library
 `use cmd: install.packages("data.table")`
 `library(data.table)`
 3. Run script run_analysis.R
 
-This will produce a tidy data named tidyData set with the average of each variable for each activity and each subject
+## Script Product
+This script will produce a tidy data set named tidyData with the average of each variable for each activity and each subject
 
+It will also produce a directory named 'rawdata' which contains the zip file downloaded from the source as well as a directory containing the unzipped files from ‘rawdata’ named 'UCI HAR Dataset'
 
+---
 ## Original Instructions
 The purpose of this project is to demonstrate your ability to collect, work with, and clean a data set.
 ### Review criteria
