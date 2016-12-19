@@ -1,107 +1,167 @@
-# Set Working directoy (setwd) to directory this script was dowloaded to
+#Codebook
 
-#import data.table package if nessessary
-#use cmd: install.packages("data.table") 
-library(data.table)
+## Variables values and descriptions
 
-#Create data dir
-dir.create("rawdata", showWarnings = FALSE)
+====================================================================================================================================================================================
 
-# Dowload Files
-download.file('https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip',
-              './rawdata/datafiles.zip')
+   subject
 
-# Unzip data files
-data <- unzip('./rawdata/datafiles.zip')
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# read in data files
-tableSubjectTrain <- fread(file.path('./UCI HAR Dataset/', "train", "subject_train.txt"))
-tableSubjectTest  <- fread(file.path('./UCI HAR Dataset/', "test" , "subject_test.txt" ))
+   Storage mode: integer
 
-tableActivityTrainY <- fread(file.path('./UCI HAR Dataset/', "train", "Y_train.txt"))
-tableActivityTestY  <- fread(file.path('./UCI HAR Dataset/', "test" , "Y_test.txt" ))
+          Min.:   1.000
+       1st Qu.:   8.000
+        Median:  15.500
+          Mean:  15.500
+       3rd Qu.:  23.000
+          Max.:  30.000
 
-tableActivityTrainX <- fread(file.path('./UCI HAR Dataset/', "train", "X_train.txt"))
-tableActivityTestX  <- fread(file.path('./UCI HAR Dataset/', "test" , "X_test.txt" ))
+====================================================================================================================================================================================
 
-#merge data
-tableSubject <- rbind(tableSubjectTrain, tableSubjectTest)
-setnames(tableSubject, "V1", "subject")
+   activity
 
-tableActivity <- rbind(tableActivityTrainY, tableActivityTestY)
-setnames(tableActivity, "V1", "activity")
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-tableActivityX <- rbind(tableActivityTrainX, tableActivityTestX)
+   Storage mode: integer
+   Factor with 6 levels
 
-tableSubject <- cbind(tableSubject, tableActivity)
-masterTable <- cbind(tableSubject, tableActivityX)
+        Values and labels    N    Percent 
+                                          
+   1 'LAYING'             1980   16.7     
+   2 'SITTING'            1980   16.7     
+   3 'STANDING'           1980   16.7     
+   4 'WALKING'            1980   16.7     
+   5 'WALKING_DOWNSTAIRS' 1980   16.7     
+   6 'WALKING_UPSTAIRS'   1980   16.7     
 
-setkey(masterTable, subject, activity)
+====================================================================================================================================================================================
 
-#Read in feature lists:
-tableFeatures <- fread(file.path('./UCI HAR Dataset/', "features.txt"))
-setnames(tableFeatures, names(tableFeatures), c("Feature", "featureName"))
+   featDomain
 
-#Subset Mean and Standard Deviation
-tableFeatures <- tableFeatures[grepl("mean\\(\\)|std\\(\\)", featureName)]
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#Match column names to masterTable
-tableFeatures$Code <- tableFeatures[, paste0("V", Feature)]
-head(tableFeatures)
-#tableFeatures$Code
+   Storage mode: integer
+   Factor with 2 levels
 
-#Var Names Subset
- featureByCode<- c(key(masterTable), tableFeatures$Code)
- masterTable <- masterTable[, featureByCode, with=FALSE]
- 
- #Read in descriptive names for activities
- tableActivityLabels <-  fread(file.path('./UCI HAR Dataset/', "activity_labels.txt"))
- setnames(tableActivityLabels, names(tableActivityLabels), c("activity", "activityName"))
+   Values and labels    N    Percent 
+                                     
+            1 'Time' 7200   60.6     
+            2 'Freq' 4680   39.4     
 
- #Merge activity descriptions into masterTable
- masterTable <- merge(masterTable, tableActivityLabels, by="activity", all.x=TRUE) 
- 
- # Add activity name as a key
- setkey(masterTable, subject, activity, activityName)
- 
-# Melt masterTable to make more readable
- masterTable <- data.table(melt(masterTable, key(masterTable), variable.name="Code"))
- 
- # Merge activity one more time
- masterTable <- merge(masterTable, tableFeatures[, list(Feature, featureName, Code)], by="Code", all.x=TRUE)
- #masterTable <- merge(masterTable, masterTableFeatures[, list(featureNum, featureCode, featureName)], by="featureCode", all.x=TRUE)
- 
- # Create 2 factors with activity and feature information
- masterTable$activity <- factor(masterTable$activityName)
- masterTable$feature <- factor(masterTable$featureName)
- 
- 
- ## greping for oservations with omore than one feature
- grepMasterTable <- function (regex) {
-     grepl(regex, masterTable$feature)
- }
- ## Features with 2 categories
- n <- 2
- y <- matrix(seq(1, n), nrow=n)
- x <- matrix(c(grepMasterTable("^t"), grepMasterTable("^f")), ncol=nrow(y))
- masterTable$featDomain <- factor(x %*% y, labels=c("Time", "Freq"))
- x <- matrix(c(grepMasterTable("Acc"), grepMasterTable("Gyro")), ncol=nrow(y))
- masterTable$featInstrument <- factor(x %*% y, labels=c("Accelerometer", "Gyroscope"))
- x <- matrix(c(grepMasterTable("BodyAcc"), grepMasterTable("GravityAcc")), ncol=nrow(y))
- masterTable$featAcceleration <- factor(x %*% y, labels=c(NA, "Body", "Gravity"))
- x <- matrix(c(grepMasterTable("mean()"), grepMasterTable("std()")), ncol=nrow(y))
- masterTable$featVariable <- factor(x %*% y, labels=c("Mean", "SD"))
- ## Features with 1 category
- masterTable$featJerk <- factor(grepMasterTable("Jerk"), labels=c(NA, "Jerk"))
- masterTable$featMagnitude <- factor(grepMasterTable("Mag"), labels=c(NA, "Magnitude"))
- ## Features with 3 categories
- n <- 3
- y <- matrix(seq(1, n), nrow=n)
- x <- matrix(c(grepMasterTable("-X"), grepMasterTable("-Y"), grepMasterTable("-Z")), ncol=nrow(y))
- masterTable$featAxis <- factor(x %*% y, labels=c(NA, "X", "Y", "Z"))
- 
- setkey(masterTable, subject, activity, featDomain, featAcceleration, featInstrument, featJerk, featMagnitude, featVariable, featAxis)
- tidyData <- masterTable[, list(count = .N, average = mean(value)), by=key(masterTable)]
- 
- codebook <- knit("run_analysis.R", output="codebook.md", encoding="ISO8859-1", quiet=TRUE)
- 
+====================================================================================================================================================================================
+
+   featAcceleration
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+   Storage mode: integer
+   Factor with 3 levels
+
+   Values and labels    N    Percent 
+                                     
+         1 'NA'      4680   39.4     
+         2 'Body'    5760   48.5     
+         3 'Gravity' 1440   12.1     
+
+====================================================================================================================================================================================
+
+   featInstrument
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+   Storage mode: integer
+   Factor with 2 levels
+
+   Values and labels    N    Percent 
+                                     
+   1 'Accelerometer' 7200   60.6     
+   2 'Gyroscope'     4680   39.4     
+
+====================================================================================================================================================================================
+
+   featJerk
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+   Storage mode: integer
+   Factor with 2 levels
+
+   Values and labels    N    Percent 
+                                     
+            1 'NA'   7200   60.6     
+            2 'Jerk' 4680   39.4     
+
+====================================================================================================================================================================================
+
+   featMagnitude
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+   Storage mode: integer
+   Factor with 2 levels
+
+   Values and labels    N    Percent 
+                                     
+       1 'NA'        8640   72.7     
+       2 'Magnitude' 3240   27.3     
+
+====================================================================================================================================================================================
+
+   featVariable
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+   Storage mode: integer
+   Factor with 2 levels
+
+   Values and labels    N    Percent 
+                                     
+            1 'Mean' 5940   50.0     
+            2 'SD'   5940   50.0     
+
+====================================================================================================================================================================================
+
+   featAxis
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+   Storage mode: integer
+   Factor with 4 levels
+
+   Values and labels    N    Percent 
+                                     
+              1 'NA' 3240   27.3     
+              2 'X'  2880   24.2     
+              3 'Y'  2880   24.2     
+              4 'Z'  2880   24.2     
+
+====================================================================================================================================================================================
+
+   count
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+   Storage mode: integer
+
+          Min.:  36.000
+       1st Qu.:  49.000
+        Median:  54.500
+          Mean:  57.220
+       3rd Qu.:  63.250
+          Max.:  95.000
+
+====================================================================================================================================================================================
+
+   average
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+   Storage mode: double
+
+          Min.:  -0.998
+       1st Qu.:  -0.962
+        Median:  -0.470
+          Mean:  -0.484
+       3rd Qu.:  -0.078
+          Max.:   0.975
