@@ -1,9 +1,10 @@
 #Codebook
 
 ## Overview
-This cookbook describes the coce in the script run_analysis as well as details regarding the tidy data set it produces:
+This cookbook describes the code in the script run_analysis as well as details regarding the tidy data set it produces:
 
 Main steps in the script delinated by comments:
+
 1. Create data dir
 2. Dowload Files
 3. Unzip data files
