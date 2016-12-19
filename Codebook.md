@@ -1,12 +1,7 @@
-#Codebook
-
-## Overview
-This cookbook describes the code in the script run_analysis as well as details regarding the tidy data set it produces:
-
-Main steps in the script delinated by comments:
+Main steps in the script delineated by comments:
 
  1. Create data dir
- 2. Dowload Files
+ 2. Download Files
  3. Unzip data files
  4. Read in data files
  5. Merge data
@@ -23,7 +18,12 @@ Main steps in the script delinated by comments:
  16. Handle observations with more than one feature
  17. Return tidyData
 
-## Tidy Data Variables values and descriptions
+## Products of script run_analysis.R
+* Zip file in a dir named rawdata from origin: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
+* Unzipped data in a dir named UCI HAR Dataset
+* Tiny data set in the form of a data table named: tinyData
+
+## tidyData variables values and descriptions
 
 ====================================================================================================================================================================================
 
