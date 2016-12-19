@@ -1,4 +1,14 @@
 # RGettingandCleaningData
+
+## Prep envirnoment and run analysis
+1.  Set Working directory (setwd) to directory the run_analysis script was dowloaded to
+2.  Import data.table package if nessessary and load the library
+``` use cmd: install.packages("data.table") ```
+``` library(data.table) ```
+3. Run script run_analysis.R
+
+This will produce a tidy data named tidyData set with the average of each variable for each activity and each subject
+---------------------------------
 ## Original Instructions
 The purpose of this project is to demonstrate your ability to collect, work with, and clean a data set.
 ### Review criteria
