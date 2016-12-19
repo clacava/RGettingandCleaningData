@@ -1,3 +1,6 @@
+#Cookbook
+
+## run_analysis.R steps
 Main steps in the script delineated by comments:
 
  1. Create data dir
@@ -25,7 +28,6 @@ Main steps in the script delineated by comments:
 
 ## tidyData variables values and descriptions
 
-====================================================================================================================================================================================
 
    subject
 
