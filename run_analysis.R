@@ -48,7 +48,6 @@ tableFeatures <- tableFeatures[grepl("mean\\(\\)|std\\(\\)", featureName)]
 #Match column names to masterTable
 tableFeatures$Code <- tableFeatures[, paste0("V", Feature)]
 head(tableFeatures)
-#tableFeatures$Code
 
 #Var Names Subset
  featureByCode<- c(key(masterTable), tableFeatures$Code)
@@ -69,14 +68,13 @@ head(tableFeatures)
  
  # Merge activity one more time
  masterTable <- merge(masterTable, tableFeatures[, list(Feature, featureName, Code)], by="Code", all.x=TRUE)
- #masterTable <- merge(masterTable, masterTableFeatures[, list(featureNum, featureCode, featureName)], by="featureCode", all.x=TRUE)
  
  # Create 2 factors with activity and feature information
  masterTable$activity <- factor(masterTable$activityName)
  masterTable$feature <- factor(masterTable$featureName)
  
  
- ## greping for oservations with omore than one feature
+ # greping for observations with more than one feature
  grepMasterTable <- function (regex) {
      grepl(regex, masterTable$feature)
  }
@@ -101,6 +99,7 @@ head(tableFeatures)
  masterTable$featAxis <- factor(x %*% y, labels=c(NA, "X", "Y", "Z"))
  
  setkey(masterTable, subject, activity, featDomain, featAcceleration, featInstrument, featJerk, featMagnitude, featVariable, featAxis)
+ # Return tidyData
  tidyData <- masterTable[, list(count = .N, average = mean(value)), by=key(masterTable)]
  
  
